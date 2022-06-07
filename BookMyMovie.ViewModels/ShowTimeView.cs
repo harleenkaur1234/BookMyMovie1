@@ -11,7 +11,7 @@ namespace BookMyMovie.ViewModels
         [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         public DateTime Date { get; set; }
-        public TimeSpan Time { get; set; }
+        public DateTime Time { get; set; }
         public double TicketPrice { get; set; }
         //public long MovieId { get; set; }
     }

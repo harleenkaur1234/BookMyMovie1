@@ -22,6 +22,7 @@ namespace BookMyMovie.ViewModels
 
         [Required]
         [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{dd/mm/yyyy}")]
         [Column(TypeName = "date")]
         public DateTime ReleaseDate { get; set; }
 

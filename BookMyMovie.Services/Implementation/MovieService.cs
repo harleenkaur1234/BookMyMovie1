@@ -33,7 +33,7 @@ namespace BookMyMovie.Services.Implementation
             }
             catch (Exception e)
             {
-                return null;
+                throw new Exception("Error occurred while saving in database");
             }
         }
         public async Task<List<MovieNameView>> GetMovieByLanguage(string movieName)
@@ -44,39 +44,53 @@ namespace BookMyMovie.Services.Implementation
                  .Where(x => x.MovieName == movieName)
                  .Select(x => new MovieNameView { MovieName = x.MovieName })
                 .ToListAsync();
-
-            var movieNamesList = _mapper.Map<List<MovieNameView>>(movie);
-            return movieNamesList;
+            if (movie != null)
+            {
+                var movieNamesList = _mapper.Map<List<MovieNameView>>(movie);
+                return movieNamesList;
+            }
+            throw new Exception("Error occurred while fetching details from database");
         }
 
         public async Task<List<MovieNameView>> GetMovieNames()
         {
             var moviesNames = await _bookDbContext.Movies
                 .ToListAsync();
-
-            var NamesList = _mapper.Map<List<MovieNameView>>(moviesNames);
-            return NamesList;
+            if (moviesNames != null)
+            {
+                var NamesList = _mapper.Map<List<MovieNameView>>(moviesNames);
+                return NamesList;
+            }
+            else
+            {
+                throw new Exception("Error occurred while fetching details from database");
+            }
         }
         public async Task<List<MovieView>> GetMoviesDetails()
         {
             var moviesList = await _bookDbContext.Movies
                  .Include(x=>x.ShowTimes).ToListAsync();
-
-            var resultList = _mapper.Map<List<MovieView>>(moviesList);
-            return resultList;
+            if(moviesList != null) 
+            {
+                var resultList = _mapper.Map<List<MovieView>>(moviesList);
+                return resultList;
+            }
+            else
+            {
+                throw new Exception("Error occurred while fetching details from database");
+            }
         }
 
         public MovieView GetMovieDetailByName(string movieName)
         {
 
-            var movie = _bookDbContext.Movies.Include(x => x.ShowTimes).Where(x => x.MovieName == movieName).FirstOrDefault();
+            var movie = _bookDbContext.Movies.Include(x => x.ShowTimes).Where(x => x.MovieName == movieName).FirstOrDefault();        
             var movieFetched = _mapper.Map<MovieView>(movie);
             return movieFetched;
         }
 
         public async Task<List<MovieNameView>> GetMoviesByDirector(string director)
         {
-
             var movie = await _bookDbContext.Movies.Where(x => x.Director == director).ToListAsync();
             var result = _mapper.Map<List<MovieNameView>>(movie);
             return result;
@@ -84,7 +98,6 @@ namespace BookMyMovie.Services.Implementation
 
         public async Task<List<MovieGenreViewModel>> GetMoviesByGenre(string genre)
         {
-
             var genreList = await _bookDbContext.Movies.Where(x => x.Genre == genre).ToListAsync();
             var genreMap = _mapper.Map<List<MovieGenreViewModel>>(genreList);
             return genreMap;
@@ -125,17 +138,18 @@ namespace BookMyMovie.Services.Implementation
             return "Movie not Found";
         }
 
-        public string UpdateMovie(UpdateMovieView movie)
+        public UpdateMovieView UpdateMovie(UpdateMovieView movie)
         {
-            var movieModel = _bookDbContext.Movies.Where(x=>x.Id ==movie.MovieId).FirstOrDefault();
-            if (movieModel != null)
+            var movieModel = _bookDbContext.Movies.Where(x => x.Id == movie.MovieId).FirstOrDefault();
+            if (movieModel == null)
             {
-                var result = _mapper.Map(movie, movieModel);
-                _bookDbContext.Movies.Update(result);
-                _bookDbContext.SaveChanges();
-                return "Movie Updated Successfully";
+                throw new Exception("Movie Id not found");
             }
-            return "Movie Not Found";
+            var result = _mapper.Map(movie, movieModel);
+            _bookDbContext.Movies.Update(result);
+            _bookDbContext.SaveChanges();
+
+            return movie;
         }
     }
 }

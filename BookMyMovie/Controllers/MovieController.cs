@@ -54,12 +54,11 @@ namespace BookMyMovie.Controllers
             try
             {
                 var result = _movieService.GetMovieDetailByName(movieName);
-                if (result == null)
+                if (result != null)
                 {
-                    //return NoContent();
-                    return StatusCode(StatusCodes.Status201Created, $"The movie {movieName} doesn't exist in the database");
+                    return result;
                 }
-                return result;
+                return StatusCode(StatusCodes.Status201Created, $"The movie {movieName} doesn't exist in the database");
             }
             catch (Exception)
             {
@@ -145,7 +144,7 @@ namespace BookMyMovie.Controllers
                 var result = _movieService.GetMovieById(id);
                 if (result == null)
                 {
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status201Created, $"The movie Id {id} doesn't exist ");
                 }
                 return result;
             }
@@ -163,7 +162,7 @@ namespace BookMyMovie.Controllers
                 var result = _movieService.GetActors(movieName);
                 if (result == null)
                 {
-                    return NotFound();
+                    return StatusCode(StatusCodes.Status201Created, "Movie name not found");
                 }
                 return result;
             }
@@ -175,7 +174,7 @@ namespace BookMyMovie.Controllers
       
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteMovie/{id}")]
         public ActionResult<string> DeleteMovie(long id)
         {
             try
@@ -195,10 +194,28 @@ namespace BookMyMovie.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public string updateMovie(UpdateMovieView movie)
+        [HttpPut("UpdateMovie/{id}")]
+        public ActionResult<UpdateMovieView> updateMovie(long id,UpdateMovieView movie)
         {
-            return _movieService.UpdateMovie(movie);
+            try
+            {
+               var res =  _movieService.GetMovieById(movie.MovieId);
+                if (id != movie.MovieId)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, $"Movie Id {id} not match");
+                }
+                else if (res != null)
+                {
+                    var result = _movieService.UpdateMovie(movie);
+                    return result;
+                }
+               
+                return StatusCode(StatusCodes.Status400BadRequest, $"Movie Id {id} not found");
+            }
+             catch(Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error in updating data in the database");
+            }
 
         }
     }

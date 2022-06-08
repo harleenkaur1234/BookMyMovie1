@@ -3,6 +3,7 @@ using BookMyMovie.DB;
 using BookMyMovie.Models;
 using BookMyMovie.Services.Interface;
 using BookMyMovie.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -121,7 +122,7 @@ namespace BookMyMovie.Services.Implementation
                 _bookDbContext.SaveChanges();
                 return "Movie is deleted successfully";
             }
-            return null;
+            return "Movie not Found";
         }
     }
 }

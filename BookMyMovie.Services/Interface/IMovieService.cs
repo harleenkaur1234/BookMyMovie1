@@ -19,5 +19,6 @@ namespace BookMyMovie.Services.Interface
         public MovieByIdView GetMovieById(long id);
         public string DeleteMovie(long Id);
         public ActorByMovieName GetActors(string movieName);
+       
     }
 }

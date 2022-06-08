@@ -60,7 +60,7 @@ namespace BookMyMovie.Services.Implementation
         public async Task<List<MovieView>> GetMoviesDetails()
         {
             var moviesList = await _bookDbContext.Movies
-                 .ToListAsync();
+                 .Include(x=>x.ShowTimes).ToListAsync();
 
             var resultList = _mapper.Map<List<MovieView>>(moviesList);
             return resultList;
@@ -100,7 +100,7 @@ namespace BookMyMovie.Services.Implementation
         public MovieByIdView GetMovieById(long id)
         {
 
-            var movie = _bookDbContext.Movies.Where(x => x.Id == id).FirstOrDefault();
+            var movie = _bookDbContext.Movies.Include(x=>x.ShowTimes).Where(x => x.Id == id).FirstOrDefault();
             var movieFetched = _mapper.Map<MovieByIdView>(movie);
             return movieFetched;
         }

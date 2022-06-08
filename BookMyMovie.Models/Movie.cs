@@ -35,7 +35,6 @@ namespace BookMyMovie.Models
         public string Language { get; set; }
 
         [Required]
-        
         public string Duration { get; set; }
         public List<ShowTime> ShowTimes { get; set; }
     }

@@ -194,5 +194,12 @@ namespace BookMyMovie.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error in deleting data in database");
             }
         }
+
+        [HttpPut("{id}")]
+        public string updateMovie(UpdateMovieView movie)
+        {
+            return _movieService.UpdateMovie(movie);
+
+        }
     }
 }

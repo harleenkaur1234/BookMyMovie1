@@ -56,7 +56,8 @@ namespace BookMyMovie.Controllers
                 var result = _movieService.GetMovieDetailByName(movieName);
                 if (result == null)
                 {
-                    return NotFound();
+                    //return NoContent();
+                    return StatusCode(StatusCodes.Status201Created, $"The movie {movieName} doesn't exist in the database");
                 }
                 return result;
             }
@@ -184,7 +185,6 @@ namespace BookMyMovie.Controllers
                 {
                     return NotFound($"Movie Id = {id} not Found");
                 }
-
 
                 return _movieService.DeleteMovie(id);
 

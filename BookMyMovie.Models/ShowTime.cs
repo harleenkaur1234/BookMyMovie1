@@ -22,6 +22,7 @@ namespace BookMyMovie.Models
         
         [Required]
         [MaxLength(50)]
+        [Range(100, 350)]
         public double TicketPrice { get; set; }
 
         public long MovieId { get; set; }

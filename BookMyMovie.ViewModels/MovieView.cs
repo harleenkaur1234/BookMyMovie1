@@ -10,14 +10,25 @@ namespace BookMyMovie.ViewModels
     {
         [Required]
         public string MovieName { get; set; }
+
+        [Required]
         public string Director { get; set; }
+
+        [Required]
         public string Actor { get; set; }
+
+        [Required]
         public string Genre { get; set; }
 
+        [Required]
         [DataType(DataType.Date)]
         [Column(TypeName = "date")]
         public DateTime ReleaseDate { get; set; }
+
+        [Required]
         public string Language { get; set; }
+
+        [Required]
         public string Duration { get; set; }
         public List<ShowTimeView> ShowTimes { get; set; }
     }

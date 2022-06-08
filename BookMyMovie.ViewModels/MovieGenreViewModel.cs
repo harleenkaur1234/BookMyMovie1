@@ -9,6 +9,6 @@ namespace BookMyMovie.ViewModels
         public string MovieName { get; set; }
         public string Director { get; set; }
         public string Language { get; set; }
-        public string Actor { get; }
+        public string Actor { get; set; }
     }
 }

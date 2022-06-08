@@ -18,7 +18,7 @@ namespace BookMyMovie.ViewModels
         [Column(TypeName = "date")]
         public DateTime ReleaseDate { get; set; }
         public string Language { get; set; }
-        public DateTime Duration { get; set; }
+        public string Duration { get; set; }
         public List<ShowTimeView> ShowTimes { get; set; }
     }
 }

@@ -124,5 +124,18 @@ namespace BookMyMovie.Services.Implementation
             }
             return "Movie not Found";
         }
+
+        public string UpdateMovie(UpdateMovieView movie)
+        {
+            var movieModel = _bookDbContext.Movies.Where(x=>x.Id ==movie.MovieId).FirstOrDefault();
+            if (movieModel != null)
+            {
+                var result = _mapper.Map(movie, movieModel);
+                _bookDbContext.Movies.Update(result);
+                _bookDbContext.SaveChanges();
+                return "Movie Updated Successfully";
+            }
+            return "Movie Not Found";
+        }
     }
 }

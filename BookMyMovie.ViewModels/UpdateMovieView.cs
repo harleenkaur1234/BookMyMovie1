@@ -6,6 +6,6 @@ namespace BookMyMovie.ViewModels
 {
     public class UpdateMovieView : MovieView
     {
-        public long ID { get; set; }
+        public long MovieId { get; set; }
     }
 }

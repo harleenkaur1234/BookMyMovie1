@@ -20,6 +20,6 @@ namespace BookMyMovie.Services.Interface
         public string DeleteMovie(long Id);
         public ActorByMovieName GetActors(string movieName);
        
-        public string UpdateMovie(UpdateMovieView movie);
+        public UpdateMovieView UpdateMovie(UpdateMovieView movie);
     }
 }
